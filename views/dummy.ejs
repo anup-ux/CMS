@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- include('link.ejs') %>
+        <title>dummy</title>
+</head>
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        padding: 5px;
+    }
+    
+    table {
+        border-spacing: 15px;
+    }
+</style>
+
+<body>
+    <div class="d-flex justify-content-end p-3">
+        <a class="btn btn-primary" href="insert">Create new</a>
+    </div>
+    <nav class="navbar navbar-light bg-light d-flex justify-content-center">
+        <form action="/articles/search" method="GET" class="form-inline">
+            <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search" id="search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+    <div class="d-flex justify-content-center mb-4">
+        <table style="width:50%" id="table" class="mt-4 pt-4 pb-5">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Contents</th>
+                <th colspan="3 ">CRUD</th>
+            </tr>
+            <%article.forEach((item)=>{%>
+                <tr>
+                    <td>
+                        <%=item.id%>
+                    </td>
+                    <td>
+                        <%=item.title%>
+                    </td>
+                    <td>
+                        <img src=" <%-item.file%>" alt="" width="100" height="100">
+                    </td>
+                    <td id="content">
+                        <%-item.content%>
+                    </td>
+                    <td><a class="btn btn-primary btn-sm" href=<%=item.id%>>view</a></td>
+                    <td><button data-deletebutton="<%=item.id%>" class="btn btn-danger btn-sm" onclick="checkDelete()">Delete</button></td>
+                    <td><a class="btn btn-success btn-sm" href=update/<%=item.id%>>Update</a></td>
+                </tr>
+
+                <%})%>
+
+
+        </table>
+    </div>
+    <script>
+        document.getElementById("table").addEventListener("click", (e) => {
+            console.log(e.target.dataset.deletebutton);
+            console.log("e.target", e.target)
+            if (!e.target.dataset.deletebutton) {
+                return false;
+            }
+            fetch("/delete/" + e.target.dataset.deletebutton, {
+                    method: "DELETE"
+                })
+                .then(res => res.text())
+                .then(() => {
+                    document.getElementById("table").deleteRow(e.target.parentNode.parentNode.rowIndex);
+                })
+                .catch(err => {
+                    console.log("This error is from catch block of delete:", err);
+                })
+        })
+
+        function checkDelete() {
+            return confirm('Are you sure?');
+        }
+    </script>
+
+</body>
+
+</html>

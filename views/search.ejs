@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <%- include('link.ejs') %>
+</head>
+
+<body>
+    <div class="container d-flex justify-content-center mt-3">
+        <div class="card" style="width:30rem;">
+            <img class="card-img-top" src="<%=awaitForSearcModel[0].file%>" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%=awaitForSearcModel[0].title%>
+                </h5>
+                <p class="card-text">
+                    <%-awaitForSearcModel[0].content%>
+                </p>
+                <p class="font-weight-light">Published on
+                    <%=awaitForSearcModel[0].published_at%>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

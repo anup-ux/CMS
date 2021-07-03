@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create</title>
+    <link rel="stylesheet" href="https://unpkg.com/js-datepicker/dist/datepicker.min.css">
+    <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+    <script src="https://unpkg.com/js-datepicker"></script>
+    <%- include('link.ejs') %>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Create an article</h2>
+        <form action="/create-new" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="title">Enter a title</label>
+                <input type="text" name="title" class="form-control" id="titleBoot" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+                <label for="file">Cover image</label>
+                <input type="file" name="file" class="form-control" id="fileInput">
+            </div>
+            <div class="form-group">
+                <label for="content">Enter the article contents</label>
+                <textarea name="content" cols="80" rows="10" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="published_at">Choose a date</label>
+                <input type="text" name="published_at" class="form-control" id="date">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <script>
+        const picker = datepicker('#date', {
+            formatter: (input, date, instance) => {
+                const value = date.toLocaleDateString()
+                input.value = value // => '1/1/2099'
+            }
+        })
+
+
+        CKEDITOR.replace('content', {
+            filebrowserUploadUrl: "/fileOfCkeditor"
+        });
+    </script>
+</body>
+
+</html>
